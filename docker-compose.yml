@@ -1,0 +1,72 @@
+name: prime_numbers  # nome progetto
+
+# SERVIZI
+# > i servizi sono accessibili all'interno della rete docker
+# > mediante alias <nome progetto>-<nome servizio>-<ID servizio>.
+# > Verificare gli alias di un container con ```docker inspect <ID container>```
+
+services:
+  # suddividi il lavoro in piu' richieste HTTP in base a quanti valori bisogna verificare
+  worksplitter:
+    image: worksplitter
+    build:  # usa il file worksplitter/Dockerfile per creare l'immagine da cui eseguire il container
+      context: worksplitter
+      dockerfile: Dockerfile
+    networks:
+      dockervlan:    # assegna un IP statico della rete fisica
+        ipv4_address: "192.168.1.193"
+    depends_on:
+      - traefik  # esegui prima traefik
+    restart: unless-stopped
+
+  # suddividi le richieste HTTP verso i vari server
+  traefik:
+    image: traefik:v2.5
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080  # (optional) expose the dashboard !don't use in production!
+    volumes:
+      - /etc/traefik:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks:
+      - dockervlan  # assegna un IP della rete fisica dinamicamente
+    depends_on:
+      - primeserver  # esegui prima i server
+
+  # avvia piu' container che effettuano i calcoli
+  primeserver:
+    image: primeserver
+    build:
+      context: server
+      dockerfile: Dockerfile
+    networks:
+      - dockervlan  # assegna un IP della rete fisica dinamicamente
+    deploy:
+      mode: replicated
+      replicas: 5
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.primeserver.entrypoints=web"
+      - "traefik.http.routers.primeserver.rule=Host(`primeserver.localhost`)"
+      - "traefik.http.services.primeserver.loadbalancer.server.port=80"
+
+
+# RETI
+
+networks:
+  dockervlan:
+    name: dockervlan
+    driver: macvlan  # ad ogni container viene assegnato un indirizzo IP della rete fisica
+    driver_opts:
+      parent: enp0s3  # interfaccia di rete con cui l'host e' connesso alla rete
+    ipam:
+      config:
+        - subnet: "192.168.1.0/24"      # indirizzo sottorete con CIDR della rete fisica
+          ip_range: "192.168.1.128/26"  # range di indirizzi da assegnare ai container (il DHCP delle rete fisica DEVE essere impostato per NON rilasciare questi indirizzi)
+          gateway: "192.168.1.1"        # default gateway rete fisica
+          aux_addresses:
+            host: "192.168.1.129"  # indirizzo nel range riservato per creare un'interfaccia virtuale nell'host per comunicare con i suoi container
+                                   # > NOTA: leggere il README per creare l'interfaccia e per abilitare la modalita' promiscua
