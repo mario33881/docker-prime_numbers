@@ -56,6 +56,7 @@ public class PrimeService {
             thread.join();
         }
 
+        Collections.sort(result);
         System.out.println("\n\nFINE:\n");
         System.out.println(result);
         return new Result(result);
