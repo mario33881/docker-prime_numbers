@@ -11,7 +11,7 @@ Il sistema e' suddiviso nelle seguenti componenti:
 
     La richiesta verra' effettuata a Worksplitter che restituira' il risultato.
 
-- **Worksplitter**: 
+- **Worksplitter**:
     1. Riceve la richiesta dal client
     2. Suddivide il range di valori da calcolare in parti piu' piccole di uguali dimensioni
         > Piu' e' grande l'ordine di grandezza del numero di valori e piu' il range viene suddiviso in piu' parti
@@ -123,7 +123,7 @@ Docker mette a disposizione diversi tipi di reti (o "driver"):
         Alle sotto-interfacce virtuali devono essere assegnate sottoreti diverse.
 
         I messaggi di broadcast vengono bloccati.
-    
+
     E' consigliato usare le ipvlan al posto delle macvlan quando:
     - si usa una interfaccia fisica wireless (Wi-Fi).
         > Gli access point rifiutano i frame dagli indirizzi MAC che non sono stati autenticati con l'access point stesso.
@@ -188,7 +188,7 @@ Gli altri container utilizzano il server DNS di docker per risolvere i nomi.
 > Se il server DNS di docker non riesce a risolvere un nome il server delega il compito ad uno dei server DNS dell'host
 
 In una rete bridge definita dall'utente viene utilizzato il nome del container (e i suoi ```alias```) per risolverlo in un indirizzo IP.
-> NOTA: anche se e' una flag deprecata e che potrebbe quindi essere rimossa in qualunque momento, e' tecnicamente possibile utilizzare l'opzione ```--link``` per fare la stessa cosa nella rete bridge di default 
+> NOTA: anche se e' una flag deprecata e che potrebbe quindi essere rimossa in qualunque momento, e' tecnicamente possibile utilizzare l'opzione ```--link``` per fare la stessa cosa nella rete bridge di default
 
 Se si utilizza docker compose tra gli alias, se non si specifica il nome del container esplicitamente, verra' creato in automatico un alias nel formato:
 
@@ -277,7 +277,7 @@ Nel progetto i sorgenti piu' importanti (presenti nella cartella ```worksplitter
     4. Esegue i thread per ottenere i risultati parziali.
 
         I risultati parziali vengono collezionati in una ```synchronizedList``` per evitare race condition.
-    
+
     5. Attende che tutti i thread abbiano finito
     6. Restituisce il risultato al controller e quindi al client
 

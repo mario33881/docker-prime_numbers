@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WorksplitterApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WorksplitterApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WorksplitterApplication.class, args);
+    }
 
-	/**
-	 * Rispondi alle richieste HTTP su / con il messaggio "OK"
-	 */
-	@GetMapping("/")
-	public String index(){
-		return "OK";
-	}
+    /**
+     * Rispondi alle richieste HTTP su / con il messaggio "OK"
+     */
+    @GetMapping("/")
+    public String index(){
+        return "OK";
+    }
 }

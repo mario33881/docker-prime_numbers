@@ -1,4 +1,4 @@
-/** 
+/**
 * @file canpie.h
 * @author Lorenzo Castagna
 * @date 1 Gen 2022
@@ -59,7 +59,7 @@
 #define MTU 500             ///< Default length in byte for message strings
 #define MAXADDRESSLEN 50    ///< Default length in byte for address strings
 
-#define AUTO -1             ///< To avoid the explicit UDP port indication in case of client 
+#define AUTO -1             ///< To avoid the explicit UDP port indication in case of client
 
 /**
 * Macros to simplify the implementation of thread functions
@@ -79,7 +79,7 @@ typedef int socketif_t;
 typedef int connection_t;
 
 /**
-* @brief Function used to create a UDP interface and bind it to a specified local port, 
+* @brief Function used to create a UDP interface and bind it to a specified local port,
 * if AUTO is specified a random port will be assigned for binding
 *
 * @param[in] sourcePort The local port
@@ -109,7 +109,7 @@ int UDPReceive(socketif_t sockfd, void *message, int msgLen, char *host, int *so
 * @brief Function used to send a UDP packet to a specified host and port
 *
 * @param[in] sockfd ID of the socket used to send the message
-* @param[in] message Buffer containing the message to be sent 
+* @param[in] message Buffer containing the message to be sent
 * @param[in] msgLen Buffer length
 * @param[in] host String containing destination IP/hostname
 * @param[in] destPort Destination port
@@ -120,11 +120,11 @@ int UDPReceive(socketif_t sockfd, void *message, int msgLen, char *host, int *so
 int UDPSend(socketif_t sockfd, void *message, int msgLen, char *host, int destPort);
 
 /**
-* @brief Function used by the server to create a TCP interface and bind the server info (port, ip) 
+* @brief Function used by the server to create a TCP interface and bind the server info (port, ip)
 *
 * @param[in] sourcePort The local port of the server
 *
-* @retval ID of the created socket 
+* @retval ID of the created socket
 * @retval ERRSOCKET Error during creation of the socket
 * @retval ERRBIND Error during the bind of socket to the specified port
 *
@@ -134,10 +134,10 @@ socketif_t createTCPServer(int sourcePort);
 /**
 * @brief Function used by the client to create a TCP connection towards a host and the specified port
 *
-* @param[in] host The host to connect to (IP or Hostname) 
+* @param[in] host The host to connect to (IP or Hostname)
 * @param[in] destPort The destination port
 *
-* @retval ID of the established connection 
+* @retval ID of the established connection
 * @retval ERRSOCKET Error during creation of the socket
 * @retval ERRHOST Error no host with this hostname
 * @retval ERRCONNECT Error during connection to the server
@@ -146,10 +146,10 @@ socketif_t createTCPServer(int sourcePort);
 connection_t createTCPConnection(char *host, int destPort);
 
 /**
-* @brief Function used by the client to create a TCP connection towards a host and the specified port, 
+* @brief Function used by the client to create a TCP connection towards a host and the specified port,
 * the connection ID is returned as a stream file descriptor
 *
-* @param[in] host The host to connect to (IP or Hostname) 
+* @param[in] host The host to connect to (IP or Hostname)
 * @param[in] destPort The destination port
 *
 * @retval File descriptor of the established connection
@@ -165,14 +165,14 @@ FILE *createTCPConnectionFD(char *host, int destPort);
 *
 * @param[in] sockfd ID of the socket where a connection will be accepted
 *
-* @retval ID of the accepted connection 
+* @retval ID of the accepted connection
 * @retval ERRACCEPT Error during acceptance of the connection
 *
 */
 connection_t acceptConnection(socketif_t sockfd);
 
 /**
-* @brief Function used by the server to wait for a connection coming from a client, 
+* @brief Function used by the server to wait for a connection coming from a client,
 * the connection ID is the form of a stream file descriptor
 *
 * @param[in] sockfd ID of the socket where a connection will be accepted
@@ -188,7 +188,7 @@ FILE *acceptConnectionFD(socketif_t sockfd);
 *
 * @param[in] connID ID of the TCP connection
 * @param[in] message String containing the message to be sent
-* @param[in] msgLen Length in byte of the message 
+* @param[in] msgLen Length in byte of the message
 *
 * @retval byteSent Number of byte sent through the connection
 *
@@ -197,10 +197,10 @@ int TCPSend(connection_t connID, void *message, int msgLen);
 
 /**
 * @brief Function used to receive a message through an established TCP connection
-* 
+*
 * @param[in] connID ID of the TCP connection
-* @param[in] message String to store the received message 
-* @param[in] msgLen Length in byte of the string to store the received message 
+* @param[in] message String to store the received message
+* @param[in] msgLen Length in byte of the string to store the received message
 *
 * @retval ERRLEN Error the length of the message received is bigger than expected
 *
@@ -209,7 +209,7 @@ int TCPReceive(connection_t connID, void *message, int msgLen);
 
 /**
 * @brief Close the specified connection
-* 
+*
 * @param[in] connID ID of the established TCP connection
 *
 * @retval SUCCESS Successful closure of the connection
@@ -219,7 +219,7 @@ int closeConnection(connection_t connID);
 
 /**
 * @brief Function that create the text for the HTTP request specified
-* 
+*
 * @param[in] method Request method (GET,POST,PUT,DELETE)
 * @param[in] path Path of the resource reaquired
 * @param[in] body Body required (NULL if not needed in the request)
@@ -227,7 +227,7 @@ int closeConnection(connection_t connID);
 * @param[in] len Length of the request String
 * @param[out] requestLen Length of the text request generated
 *
-* @retval ERRLEN Error the length of the request string is not enough 
+* @retval ERRLEN Error the length of the request string is not enough
 *
 */
 int createHTTPRequest(int method, char *path, char *body, char *request, int len);
@@ -306,7 +306,7 @@ int doDELETE(char *url, char *response, int respLen);
 *
 * @param[in] networkID Network ID of the network resource (socket ID or connection ID or file descriptor) used inside the function
 * @param[in] function Function pointer to the function (defined by the user) that the thread will execute
-* 
+*
 * @retval Return value from pthread function
 */
 int createConcurrentNetworkFunction(void *networkID, void *function(void *));

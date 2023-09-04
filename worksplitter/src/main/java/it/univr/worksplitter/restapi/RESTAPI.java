@@ -72,7 +72,7 @@ public class RESTAPI extends Thread
             System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
             HttpURLConnection c = (HttpURLConnection) u.openConnection();
             c.setRequestProperty("Host", "primeserver.localhost");
-	        c.connect();
+            c.connect();
 
             // leggi cio' che viene restituito dal server
             BufferedReader b = new BufferedReader(new InputStreamReader(c.getInputStream()));
@@ -118,7 +118,7 @@ public class RESTAPI extends Thread
             System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
             HttpURLConnection c = (HttpURLConnection) u.openConnection();
             c.setRequestProperty("Host", "primeserver.localhost");
-	        c.connect();
+            c.connect();
 
             // leggi cio' che viene restituito dal server
             BufferedReader b = new BufferedReader(new InputStreamReader(c.getInputStream()));
