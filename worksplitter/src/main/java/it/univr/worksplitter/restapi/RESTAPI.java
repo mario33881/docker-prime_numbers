@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -136,7 +134,6 @@ public class RESTAPI extends Thread
                         try {
                             result.add(Integer.parseInt(items[i]));
                             this.result.add(Integer.parseInt(items[i]));
-                            Collections.sort(this.result);
                         } catch (NumberFormatException nfe) {};
                     }
                 }
